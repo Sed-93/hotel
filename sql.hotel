@@ -1,1 +1,113 @@
+CREATE TABLE [Ansavig personal] (
+  [Ansvarig_personal_id] int,
+  [Ansvarig_personal_namn] varchar(45),
+  [idHotel] int,
+  PRIMARY KEY ([Ansvarig_personal_id])
+);
 
+CREATE INDEX [Key] ON  [Ansavig personal] ([Ansvarig_personal_namn]);
+
+CREATE TABLE [Hotel] (
+  [idHotel] int,
+  [Hotel_Namn] varchar(45),
+  [Adress] varchar(45),
+  [Stad] varchar(45),
+  [Land] varchar(45),
+  PRIMARY KEY ([idHotel])
+);
+
+CREATE INDEX [Key] ON  [Hotel] ([Hotel_Namn], [Adress], [Stad], [Land]);
+
+CREATE TABLE [Rabatter] (
+  [idRabatter] int,
+  [idHotel] int,
+  [Rabbatkod] varchar(45),
+  [Procentsats] DECIMAL(10,2),
+  [Giltig_from] DATE,
+  [Giltig_till] DATE,
+  PRIMARY KEY ([idRabatter])
+);
+
+CREATE INDEX [Key] ON  [Rabatter] ([Rabbatkod], [Procentsats], [Giltig_from], [Giltig_till]);
+
+CREATE TABLE [Bokning] (
+  [idBokning] int,
+  [Rum_id_nummer] int,
+  [Checka_in] DATE,
+  [Checka_ut] DATE,
+  [Har_Checkat_in] bit,
+  [idHotel] int,
+  PRIMARY KEY ([idBokning]),
+  CONSTRAINT [FK_Bokning.idHotel]
+    FOREIGN KEY ([idHotel])
+      REFERENCES [Hotel]([idHotel])
+);
+
+CREATE INDEX [Key] ON  [Bokning] ([Checka_in], [Checka_ut], [Har_Checkat_in]);
+
+CREATE TABLE [Guest] (
+  [idGuest] int,
+  [idBokning] int,
+  [Namn] varchar(45),
+  [Efternamn] varchar(45),
+  [Email] varchar(45),
+  [Telefonnummer] varchar(45),
+  PRIMARY KEY ([idGuest]),
+  CONSTRAINT [FK_Guest.idBokning]
+    FOREIGN KEY ([idBokning])
+      REFERENCES [Bokning]([idBokning])
+);
+
+CREATE INDEX [Key] ON  [Guest] ([Namn], [Efternamn], [Email], [Telefonnummer]);
+
+CREATE TABLE [Recentioner] (
+  [idRecencioner] int,
+  [idHotel] int,
+  [idGuest] int,
+  [Röst_star] int,
+  [Medelande] varchar(45),
+  PRIMARY KEY ([idRecencioner]),
+  CONSTRAINT [FK_Recentioner.idGuest]
+    FOREIGN KEY ([idGuest])
+      REFERENCES [Guest]([idGuest])
+);
+
+CREATE INDEX [Key] ON  [Recentioner] ([Röst_star], [Medelande]);
+
+CREATE TABLE [Rum] (
+  [Rum_id_nummer] int,
+  [idHotel] int,
+  [Rum_typ] varchar(45),
+  [Rum_pris_per_natt] DECIMAL(10,2),
+  [personer] int,
+  PRIMARY KEY ([Rum_id_nummer])
+);
+
+CREATE INDEX [Key] ON  [Rum] ([Rum_typ], [Rum_pris_per_natt], [personer]);
+
+CREATE TABLE [Extra_val] (
+  [idextra_val] int,
+  [Rum_id_nummer] int,
+  [Frukost] bit,
+  [Minibar] bit,
+  [Spa] bit,
+  [Gym] bit,
+  [extra_bed] bit,
+  PRIMARY KEY ([idextra_val]),
+  CONSTRAINT [FK_Extra_val.Rum_id_nummer]
+    FOREIGN KEY ([Rum_id_nummer])
+      REFERENCES [Rum]([Rum_id_nummer])
+);
+
+CREATE INDEX [Key] ON  [Extra_val] ([Frukost], [Minibar], [Spa], [Gym], [extra_bed]);
+
+CREATE TABLE [Betalning] (
+  [idBetalning] int,
+  [idBokning] int,
+  [Belopp] DECIMAL(10,2),
+  [Betalning_datum] DATE,
+  [Betalning_alternativ] varchar(45),
+  PRIMARY KEY ([idBetalning])
+);
+
+CREATE INDEX [Key] ON  [Betalning] ([Belopp], [Betalning_datum], [Betalning_alternativ]);
