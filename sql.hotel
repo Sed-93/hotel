@@ -1,113 +1,473 @@
-CREATE TABLE [Ansavig personal] (
-  [Ansvarig_personal_id] int,
-  [Ansvarig_personal_namn] varchar(45),
-  [idHotel] int,
-  PRIMARY KEY ([Ansvarig_personal_id])
-);
+USE [master]
+GO
+/****** Object:  Database [Bokning_Hotel]    Script Date: 2023-12-02 10:29:01 ******/
+CREATE DATABASE [Bokning_Hotel]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+GO
+ALTER DATABASE [Bokning_Hotel] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Bokning_Hotel].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [Bokning_Hotel] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET AUTO_CLOSE ON 
+GO
+ALTER DATABASE [Bokning_Hotel] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [Bokning_Hotel] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [Bokning_Hotel] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [Bokning_Hotel] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [Bokning_Hotel] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [Bokning_Hotel] SET  MULTI_USER 
+GO
+ALTER DATABASE [Bokning_Hotel] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [Bokning_Hotel] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [Bokning_Hotel] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [Bokning_Hotel] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [Bokning_Hotel] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [Bokning_Hotel] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+ALTER DATABASE [Bokning_Hotel] SET QUERY_STORE = OFF
+GO
+USE [Bokning_Hotel]
+GO
+/****** Object:  Table [dbo].[Ansavig personal]    Script Date: 2023-12-02 10:29:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Ansavig personal](
+	[Ansvarig_personal_id] [int] IDENTITY(1,1) NOT NULL,
+	[Ansvarig_personal_namn] [varchar](45) NULL,
+	[idHotel] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Ansvarig_personal_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Betalning]    Script Date: 2023-12-02 10:29:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Betalning](
+	[idBetalning] [int] IDENTITY(1,1) NOT NULL,
+	[idBokning] [int] NULL,
+	[Belopp] [decimal](10, 2) NULL,
+	[Betalning_datum] [date] NULL,
+	[Betalning_alternativ] [varchar](45) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idBetalning] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Bokning]    Script Date: 2023-12-02 10:29:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Bokning](
+	[idBokning] [int] IDENTITY(1,1) NOT NULL,
+	[Rum_id_nummer] [int] NULL,
+	[Checka_in] [date] NULL,
+	[Checka_ut] [date] NULL,
+	[Har_Checkat_in] [bit] NULL,
+	[idHotel] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idBokning] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Extra_val]    Script Date: 2023-12-02 10:29:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Extra_val](
+	[idextra_val] [int] IDENTITY(1,1) NOT NULL,
+	[Rum_id_nummer] [int] NULL,
+	[Frukost] [bit] NULL,
+	[Minibar] [bit] NULL,
+	[Spa] [bit] NULL,
+	[Gym] [bit] NULL,
+	[extra_bed] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idextra_val] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Guest]    Script Date: 2023-12-02 10:29:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Guest](
+	[idGuest] [int] IDENTITY(1,1) NOT NULL,
+	[idBokning] [int] NULL,
+	[Namn] [varchar](45) NULL,
+	[Efternamn] [varchar](45) NULL,
+	[Email] [varchar](45) NULL,
+	[Telefonnummer] [varchar](45) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idGuest] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Hotel]    Script Date: 2023-12-02 10:29:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Hotel](
+	[idHotel] [int] IDENTITY(1,1) NOT NULL,
+	[Hotel_Namn] [varchar](45) NULL,
+	[Adress] [varchar](45) NULL,
+	[Stad] [varchar](45) NULL,
+	[Land] [varchar](45) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idHotel] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Rabatter]    Script Date: 2023-12-02 10:29:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Rabatter](
+	[idRabatter] [int] IDENTITY(1,1) NOT NULL,
+	[idHotel] [int] NULL,
+	[Rabbatkod] [varchar](45) NULL,
+	[Procentsats] [decimal](10, 2) NULL,
+	[Giltig_from] [date] NULL,
+	[Giltig_till] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idRabatter] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Recentioner]    Script Date: 2023-12-02 10:29:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Recentioner](
+	[idRecencioner] [int] IDENTITY(1,1) NOT NULL,
+	[idHotel] [int] NULL,
+	[idGuest] [int] NULL,
+	[Röst_star] [int] NULL,
+	[Medelande] [varchar](45) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[idRecencioner] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Rum]    Script Date: 2023-12-02 10:29:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Rum](
+	[Rum_id_nummer] [int] IDENTITY(1,1) NOT NULL,
+	[idHotel] [int] NULL,
+	[Rum_typ] [varchar](45) NULL,
+	[Rum_pris_per_natt] [decimal](10, 2) NULL,
+	[personer] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Rum_id_nummer] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Ansavig personal] ON 
+GO
+INSERT [dbo].[Ansavig personal] ([Ansvarig_personal_id], [Ansvarig_personal_namn], [idHotel]) VALUES (1, N'Sedat', 1)
+GO
+INSERT [dbo].[Ansavig personal] ([Ansvarig_personal_id], [Ansvarig_personal_namn], [idHotel]) VALUES (2, N'Reza', 2)
+GO
+INSERT [dbo].[Ansavig personal] ([Ansvarig_personal_id], [Ansvarig_personal_namn], [idHotel]) VALUES (3, N'Ivy', 3)
+GO
+INSERT [dbo].[Ansavig personal] ([Ansvarig_personal_id], [Ansvarig_personal_namn], [idHotel]) VALUES (4, N'Gabriel', 4)
+GO
+SET IDENTITY_INSERT [dbo].[Ansavig personal] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Betalning] ON 
+GO
+INSERT [dbo].[Betalning] ([idBetalning], [idBokning], [Belopp], [Betalning_datum], [Betalning_alternativ]) VALUES (1, NULL, CAST(1200.00 AS Decimal(10, 2)), CAST(N'2023-12-15' AS Date), N'Kreditkort')
+GO
+INSERT [dbo].[Betalning] ([idBetalning], [idBokning], [Belopp], [Betalning_datum], [Betalning_alternativ]) VALUES (2, NULL, CAST(2000.00 AS Decimal(10, 2)), CAST(N'2023-12-14' AS Date), N'Swish')
+GO
+INSERT [dbo].[Betalning] ([idBetalning], [idBokning], [Belopp], [Betalning_datum], [Betalning_alternativ]) VALUES (3, NULL, CAST(1000.00 AS Decimal(10, 2)), CAST(N'2023-12-10' AS Date), N'Klarna')
+GO
+INSERT [dbo].[Betalning] ([idBetalning], [idBokning], [Belopp], [Betalning_datum], [Betalning_alternativ]) VALUES (4, NULL, CAST(2500.00 AS Decimal(10, 2)), CAST(N'2023-12-25' AS Date), N'Kreditkort')
+GO
+SET IDENTITY_INSERT [dbo].[Betalning] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Bokning] ON 
+GO
+INSERT [dbo].[Bokning] ([idBokning], [Rum_id_nummer], [Checka_in], [Checka_ut], [Har_Checkat_in], [idHotel]) VALUES (1, 1, CAST(N'2023-12-10' AS Date), CAST(N'2023-12-15' AS Date), 0, 1)
+GO
+INSERT [dbo].[Bokning] ([idBokning], [Rum_id_nummer], [Checka_in], [Checka_ut], [Har_Checkat_in], [idHotel]) VALUES (2, 2, CAST(N'2023-12-12' AS Date), CAST(N'2023-12-14' AS Date), 1, 2)
+GO
+INSERT [dbo].[Bokning] ([idBokning], [Rum_id_nummer], [Checka_in], [Checka_ut], [Har_Checkat_in], [idHotel]) VALUES (3, 3, CAST(N'2023-12-08' AS Date), CAST(N'2023-12-10' AS Date), 1, 3)
+GO
+INSERT [dbo].[Bokning] ([idBokning], [Rum_id_nummer], [Checka_in], [Checka_ut], [Har_Checkat_in], [idHotel]) VALUES (4, 4, CAST(N'2023-12-20' AS Date), CAST(N'2023-12-25' AS Date), 0, 1)
+GO
+SET IDENTITY_INSERT [dbo].[Bokning] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Guest] ON 
+GO
+INSERT [dbo].[Guest] ([idGuest], [idBokning], [Namn], [Efternamn], [Email], [Telefonnummer]) VALUES (1, 2, N'Claes', N'Engelin', N'Claes@hotmail.se', N'070022222')
+GO
+INSERT [dbo].[Guest] ([idGuest], [idBokning], [Namn], [Efternamn], [Email], [Telefonnummer]) VALUES (2, 3, N'Elon', N'Musk', N'Elon@hotmail.se', N'0762324455')
+GO
+INSERT [dbo].[Guest] ([idGuest], [idBokning], [Namn], [Efternamn], [Email], [Telefonnummer]) VALUES (3, 1, N'Bill', N'Gates', N'Bill@hotmail.se', N'059933445')
+GO
+INSERT [dbo].[Guest] ([idGuest], [idBokning], [Namn], [Efternamn], [Email], [Telefonnummer]) VALUES (4, 4, N'Jeff', N'Bezos', N'Jeff@hotmail.se', N'093334499')
+GO
+SET IDENTITY_INSERT [dbo].[Guest] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Hotel] ON 
+GO
+INSERT [dbo].[Hotel] ([idHotel], [Hotel_Namn], [Adress], [Stad], [Land]) VALUES (1, N'Clarion Hotel', N'Ringvägen 98', N'Stockholm', N'Sweden')
+GO
+INSERT [dbo].[Hotel] ([idHotel], [Hotel_Namn], [Adress], [Stad], [Land]) VALUES (4, N'Hotel At Six', N'Brunkebergstorg 6', N'Stockholm', N'Sverige')
+GO
+INSERT [dbo].[Hotel] ([idHotel], [Hotel_Namn], [Adress], [Stad], [Land]) VALUES (3, N'Hotel Diplomat', N'Strandvägen 7C', N'Stockholm', N'Sverige')
+GO
+INSERT [dbo].[Hotel] ([idHotel], [Hotel_Namn], [Adress], [Stad], [Land]) VALUES (2, N'Raddisson blu royal', N'Vasagatan 1', N'Stockholm', N'Sweden')
+GO
+SET IDENTITY_INSERT [dbo].[Hotel] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Rabatter] ON 
+GO
+INSERT [dbo].[Rabatter] ([idRabatter], [idHotel], [Rabbatkod], [Procentsats], [Giltig_from], [Giltig_till]) VALUES (1, 1, N'Kyh', CAST(35.00 AS Decimal(10, 2)), CAST(N'2023-12-01' AS Date), CAST(N'2024-01-31' AS Date))
+GO
+INSERT [dbo].[Rabatter] ([idRabatter], [idHotel], [Rabbatkod], [Procentsats], [Giltig_from], [Giltig_till]) VALUES (2, 2, N'Malmö', CAST(25.00 AS Decimal(10, 2)), CAST(N'2023-12-01' AS Date), CAST(N'2024-01-21' AS Date))
+GO
+INSERT [dbo].[Rabatter] ([idRabatter], [idHotel], [Rabbatkod], [Procentsats], [Giltig_from], [Giltig_till]) VALUES (3, 3, N'Stockholm', CAST(10.00 AS Decimal(10, 2)), CAST(N'2023-12-01' AS Date), CAST(N'2023-01-02' AS Date))
+GO
+INSERT [dbo].[Rabatter] ([idRabatter], [idHotel], [Rabbatkod], [Procentsats], [Giltig_from], [Giltig_till]) VALUES (4, 1, N'Göteborg', CAST(10.00 AS Decimal(10, 2)), CAST(N'2023-12-30' AS Date), CAST(N'2024-07-31' AS Date))
+GO
+SET IDENTITY_INSERT [dbo].[Rabatter] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Recentioner] ON 
+GO
+INSERT [dbo].[Recentioner] ([idRecencioner], [idHotel], [idGuest], [Röst_star], [Medelande]) VALUES (3, 1, 1, 4, N'Mycket trevligt hotell med EnkelRum')
+GO
+INSERT [dbo].[Recentioner] ([idRecencioner], [idHotel], [idGuest], [Röst_star], [Medelande]) VALUES (4, 2, 2, 5, N'Fantastisk Dubbelrum med fin utsikt.')
+GO
+INSERT [dbo].[Recentioner] ([idRecencioner], [idHotel], [idGuest], [Röst_star], [Medelande]) VALUES (5, 2, 3, 3, N'Fantastiskt Utsikt Från Svit')
+GO
+INSERT [dbo].[Recentioner] ([idRecencioner], [idHotel], [idGuest], [Röst_star], [Medelande]) VALUES (6, 3, 4, 5, N'Bra Standardrum, kommer tillbaka igen!')
+GO
+SET IDENTITY_INSERT [dbo].[Recentioner] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Rum] ON 
+GO
+INSERT [dbo].[Rum] ([Rum_id_nummer], [idHotel], [Rum_typ], [Rum_pris_per_natt], [personer]) VALUES (1, 1, N'Enkelrum', CAST(800.00 AS Decimal(10, 2)), 1)
+GO
+INSERT [dbo].[Rum] ([Rum_id_nummer], [idHotel], [Rum_typ], [Rum_pris_per_natt], [personer]) VALUES (2, 1, N'Dubbelrum', CAST(1200.00 AS Decimal(10, 2)), 2)
+GO
+INSERT [dbo].[Rum] ([Rum_id_nummer], [idHotel], [Rum_typ], [Rum_pris_per_natt], [personer]) VALUES (3, 2, N'Svit', CAST(2000.00 AS Decimal(10, 2)), 4)
+GO
+INSERT [dbo].[Rum] ([Rum_id_nummer], [idHotel], [Rum_typ], [Rum_pris_per_natt], [personer]) VALUES (4, 3, N'Standardrum', CAST(1000.00 AS Decimal(10, 2)), 2)
+GO
+SET IDENTITY_INSERT [dbo].[Rum] OFF
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [Key]    Script Date: 2023-12-02 10:29:02 ******/
+CREATE NONCLUSTERED INDEX [Key] ON [dbo].[Ansavig personal]
+(
+	[Ansvarig_personal_namn] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [Key]    Script Date: 2023-12-02 10:29:02 ******/
+CREATE NONCLUSTERED INDEX [Key] ON [dbo].[Betalning]
+(
+	[Belopp] ASC,
+	[Betalning_datum] ASC,
+	[Betalning_alternativ] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [Key]    Script Date: 2023-12-02 10:29:02 ******/
+CREATE NONCLUSTERED INDEX [Key] ON [dbo].[Bokning]
+(
+	[Checka_in] ASC,
+	[Checka_ut] ASC,
+	[Har_Checkat_in] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [Key]    Script Date: 2023-12-02 10:29:02 ******/
+CREATE NONCLUSTERED INDEX [Key] ON [dbo].[Extra_val]
+(
+	[Frukost] ASC,
+	[Minibar] ASC,
+	[Spa] ASC,
+	[Gym] ASC,
+	[extra_bed] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [Key]    Script Date: 2023-12-02 10:29:02 ******/
+CREATE NONCLUSTERED INDEX [Key] ON [dbo].[Guest]
+(
+	[Namn] ASC,
+	[Efternamn] ASC,
+	[Email] ASC,
+	[Telefonnummer] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [Key]    Script Date: 2023-12-02 10:29:02 ******/
+CREATE NONCLUSTERED INDEX [Key] ON [dbo].[Hotel]
+(
+	[Hotel_Namn] ASC,
+	[Adress] ASC,
+	[Stad] ASC,
+	[Land] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [Key]    Script Date: 2023-12-02 10:29:02 ******/
+CREATE NONCLUSTERED INDEX [Key] ON [dbo].[Rabatter]
+(
+	[Rabbatkod] ASC,
+	[Procentsats] ASC,
+	[Giltig_from] ASC,
+	[Giltig_till] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [Key]    Script Date: 2023-12-02 10:29:02 ******/
+CREATE NONCLUSTERED INDEX [Key] ON [dbo].[Recentioner]
+(
+	[Röst_star] ASC,
+	[Medelande] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [Key]    Script Date: 2023-12-02 10:29:02 ******/
+CREATE NONCLUSTERED INDEX [Key] ON [dbo].[Rum]
+(
+	[Rum_typ] ASC,
+	[Rum_pris_per_natt] ASC,
+	[personer] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Ansavig personal]  WITH CHECK ADD  CONSTRAINT [FK_Ansavig personal_Hotel] FOREIGN KEY([idHotel])
+REFERENCES [dbo].[Hotel] ([idHotel])
+GO
+ALTER TABLE [dbo].[Ansavig personal] CHECK CONSTRAINT [FK_Ansavig personal_Hotel]
+GO
+ALTER TABLE [dbo].[Betalning]  WITH CHECK ADD  CONSTRAINT [FK_Betalning_Bokning] FOREIGN KEY([idBetalning])
+REFERENCES [dbo].[Bokning] ([idBokning])
+GO
+ALTER TABLE [dbo].[Betalning] CHECK CONSTRAINT [FK_Betalning_Bokning]
+GO
+ALTER TABLE [dbo].[Bokning]  WITH CHECK ADD  CONSTRAINT [FK_Bokning.idHotel] FOREIGN KEY([idHotel])
+REFERENCES [dbo].[Hotel] ([idHotel])
+GO
+ALTER TABLE [dbo].[Bokning] CHECK CONSTRAINT [FK_Bokning.idHotel]
+GO
+ALTER TABLE [dbo].[Bokning]  WITH CHECK ADD  CONSTRAINT [FK_Bokning_Rum] FOREIGN KEY([Rum_id_nummer])
+REFERENCES [dbo].[Rum] ([Rum_id_nummer])
+GO
+ALTER TABLE [dbo].[Bokning] CHECK CONSTRAINT [FK_Bokning_Rum]
+GO
+ALTER TABLE [dbo].[Extra_val]  WITH CHECK ADD  CONSTRAINT [FK_Extra_val.Rum_id_nummer] FOREIGN KEY([Rum_id_nummer])
+REFERENCES [dbo].[Rum] ([Rum_id_nummer])
+GO
+ALTER TABLE [dbo].[Extra_val] CHECK CONSTRAINT [FK_Extra_val.Rum_id_nummer]
+GO
+ALTER TABLE [dbo].[Guest]  WITH CHECK ADD  CONSTRAINT [FK_Guest.idBokning] FOREIGN KEY([idBokning])
+REFERENCES [dbo].[Bokning] ([idBokning])
+GO
+ALTER TABLE [dbo].[Guest] CHECK CONSTRAINT [FK_Guest.idBokning]
+GO
+ALTER TABLE [dbo].[Rabatter]  WITH CHECK ADD  CONSTRAINT [FK_Rabatter_Hotel] FOREIGN KEY([idHotel])
+REFERENCES [dbo].[Hotel] ([idHotel])
+GO
+ALTER TABLE [dbo].[Rabatter] CHECK CONSTRAINT [FK_Rabatter_Hotel]
+GO
+ALTER TABLE [dbo].[Recentioner]  WITH CHECK ADD  CONSTRAINT [FK_Recentioner.idGuest] FOREIGN KEY([idGuest])
+REFERENCES [dbo].[Guest] ([idGuest])
+GO
+ALTER TABLE [dbo].[Recentioner] CHECK CONSTRAINT [FK_Recentioner.idGuest]
+GO
+ALTER TABLE [dbo].[Recentioner]  WITH CHECK ADD  CONSTRAINT [FK_Recentioner_Hotel] FOREIGN KEY([idHotel])
+REFERENCES [dbo].[Hotel] ([idHotel])
+GO
+ALTER TABLE [dbo].[Recentioner] CHECK CONSTRAINT [FK_Recentioner_Hotel]
+GO
+ALTER TABLE [dbo].[Rum]  WITH CHECK ADD  CONSTRAINT [FK_Rum_Hotel] FOREIGN KEY([idHotel])
+REFERENCES [dbo].[Hotel] ([idHotel])
+GO
+ALTER TABLE [dbo].[Rum] CHECK CONSTRAINT [FK_Rum_Hotel]
+GO
+USE [master]
+GO
+ALTER DATABASE [Bokning_Hotel] SET  READ_WRITE 
+GO
 
-CREATE INDEX [Key] ON  [Ansavig personal] ([Ansvarig_personal_namn]);
-
-CREATE TABLE [Hotel] (
-  [idHotel] int,
-  [Hotel_Namn] varchar(45),
-  [Adress] varchar(45),
-  [Stad] varchar(45),
-  [Land] varchar(45),
-  PRIMARY KEY ([idHotel])
-);
-
-CREATE INDEX [Key] ON  [Hotel] ([Hotel_Namn], [Adress], [Stad], [Land]);
-
-CREATE TABLE [Rabatter] (
-  [idRabatter] int,
-  [idHotel] int,
-  [Rabbatkod] varchar(45),
-  [Procentsats] DECIMAL(10,2),
-  [Giltig_from] DATE,
-  [Giltig_till] DATE,
-  PRIMARY KEY ([idRabatter])
-);
-
-CREATE INDEX [Key] ON  [Rabatter] ([Rabbatkod], [Procentsats], [Giltig_from], [Giltig_till]);
-
-CREATE TABLE [Bokning] (
-  [idBokning] int,
-  [Rum_id_nummer] int,
-  [Checka_in] DATE,
-  [Checka_ut] DATE,
-  [Har_Checkat_in] bit,
-  [idHotel] int,
-  PRIMARY KEY ([idBokning]),
-  CONSTRAINT [FK_Bokning.idHotel]
-    FOREIGN KEY ([idHotel])
-      REFERENCES [Hotel]([idHotel])
-);
-
-CREATE INDEX [Key] ON  [Bokning] ([Checka_in], [Checka_ut], [Har_Checkat_in]);
-
-CREATE TABLE [Guest] (
-  [idGuest] int,
-  [idBokning] int,
-  [Namn] varchar(45),
-  [Efternamn] varchar(45),
-  [Email] varchar(45),
-  [Telefonnummer] varchar(45),
-  PRIMARY KEY ([idGuest]),
-  CONSTRAINT [FK_Guest.idBokning]
-    FOREIGN KEY ([idBokning])
-      REFERENCES [Bokning]([idBokning])
-);
-
-CREATE INDEX [Key] ON  [Guest] ([Namn], [Efternamn], [Email], [Telefonnummer]);
-
-CREATE TABLE [Recentioner] (
-  [idRecencioner] int,
-  [idHotel] int,
-  [idGuest] int,
-  [Röst_star] int,
-  [Medelande] varchar(45),
-  PRIMARY KEY ([idRecencioner]),
-  CONSTRAINT [FK_Recentioner.idGuest]
-    FOREIGN KEY ([idGuest])
-      REFERENCES [Guest]([idGuest])
-);
-
-CREATE INDEX [Key] ON  [Recentioner] ([Röst_star], [Medelande]);
-
-CREATE TABLE [Rum] (
-  [Rum_id_nummer] int,
-  [idHotel] int,
-  [Rum_typ] varchar(45),
-  [Rum_pris_per_natt] DECIMAL(10,2),
-  [personer] int,
-  PRIMARY KEY ([Rum_id_nummer])
-);
-
-CREATE INDEX [Key] ON  [Rum] ([Rum_typ], [Rum_pris_per_natt], [personer]);
-
-CREATE TABLE [Extra_val] (
-  [idextra_val] int,
-  [Rum_id_nummer] int,
-  [Frukost] bit,
-  [Minibar] bit,
-  [Spa] bit,
-  [Gym] bit,
-  [extra_bed] bit,
-  PRIMARY KEY ([idextra_val]),
-  CONSTRAINT [FK_Extra_val.Rum_id_nummer]
-    FOREIGN KEY ([Rum_id_nummer])
-      REFERENCES [Rum]([Rum_id_nummer])
-);
-
-CREATE INDEX [Key] ON  [Extra_val] ([Frukost], [Minibar], [Spa], [Gym], [extra_bed]);
-
-CREATE TABLE [Betalning] (
-  [idBetalning] int,
-  [idBokning] int,
-  [Belopp] DECIMAL(10,2),
-  [Betalning_datum] DATE,
-  [Betalning_alternativ] varchar(45),
-  PRIMARY KEY ([idBetalning])
-);
-
-CREATE INDEX [Key] ON  [Betalning] ([Belopp], [Betalning_datum], [Betalning_alternativ]);
